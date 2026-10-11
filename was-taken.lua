@@ -5,7 +5,7 @@
       \ V  V / (_| \__ \  | || |_| | . \| |___| |\  |
        \_/\_/ \__,_|___/  |_| \___/|_|\_\_____|_| \_|
                                                      
-    WasTaken Premium Muscle Legends Hub (v3.0 Ultimate Tab Edition)
+    WasTaken Premium Muscle Legends Hub (v3.5 Ultimate Universal Edition)
     Theme: Cyber-Dark Purple & Metallic Dragon
 --]]
 
@@ -17,18 +17,36 @@ local VirtualUser = game:Service("VirtualUser")
 -- =======================================================
 -- CONFIG / AYARLAR (WasTaken Manuel Kontrol Paneli)
 -- =======================================================
-local KeyRawUrl = "https://raw.githubusercontent.com/wonzpro/WasTaken-/refs/heads/main/key.txt"
+local KeyRawUrl = "https://githubusercontent.com"
 local DiscordLink = "https://discord.gg/WasTaken" 
-local LogoAssetId = "rbxassetid://86521067133648" -- WasTaken Ejderha Logosu (Roblox Asset ID)
+local LogoAssetId = "rbxassetid://86521067133648" -- Değerli WasTaken Ejderha Logosu
 -- =======================================================
 
--- GitHub'dan şifreyi canlı çekme mekanizması
-local success, fetchedKey = pcall(function()
-    return game:HttpGet(KeyRawUrl)
-end)
-local CorrectKey = success and string.gsub(fetchedKey, "%s+", "") or "WasTaken2026"
+-- Delta ve Diğer Tüm Katı Korumalı Executorların İnternet Engelini Aşan Özel Yapı
+local function UniversalFetch(url)
+    local success, content = pcall(function()
+        return game:HttpGetAsync(url)
+    end)
+    if success and content then return content end
+    
+    local success2, content2 = pcall(function()
+        return game:HttpGet(url, true)
+    end)
+    if success2 and content2 then return content2 end
+    
+    local req = request or http_request or (http and http.request)
+    if req then
+        local res = req({Url = url, Method = "GET"})
+        if res and res.Body then return res.Body end
+    end
+    return "WasTaken2026"
+end
 
--- Anti-AFK
+-- Canlı şifreyi çekme işlemi
+local fetchedKey = UniversalFetch(KeyRawUrl)
+local CorrectKey = fetchedKey and string.gsub(fetchedKey, "%s+", "") or "WasTaken2026"
+
+-- Anti-AFK (7/24 Kesintisiz Bağlantı)
 if getgenv().AntiAFK == nil then
     getgenv().AntiAFK = true
     LocalPlayer.Idled:Connect(function()
@@ -47,7 +65,7 @@ local function SendNotification(title, text, duration)
     })
 end
 
--- KEY GUI
+-- GİRİŞ EKRANI (KEY GUI)
 local KeyGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
 local KeyFrame = Instance.new("Frame", KeyGui)
 KeyFrame.Size = UDim2.new(0, 360, 0, 240)
@@ -60,15 +78,15 @@ Instance.new("UICorner", KeyFrame).CornerRadius = UDim.new(0, 10)
 Instance.new("UIStroke", KeyFrame).Color = Color3.fromRGB(140, 20, 255)
 
 local KeyLogo = Instance.new("ImageLabel", KeyFrame)
-KeyLogo.Size = UDim2.new(0, 50, 0, 50)
-KeyLogo.Position = UDim2.new(0.5, -25, 0, 15)
+KeyLogo.Size = UDim2.new(0, 70, 0, 70)
+KeyLogo.Position = UDim2.new(0.5, -35, 0, 10)
 KeyLogo.BackgroundTransparency = 1
 KeyLogo.Image = LogoAssetId
 
 local KeyInput = Instance.new("TextBox", KeyFrame)
 KeyInput.PlaceholderText = "WasTaken Erişim Anahtarı..."
 KeyInput.Size = UDim2.new(0, 280, 0, 35)
-KeyInput.Position = UDim2.new(0, 40, 0, 85)
+KeyInput.Position = UDim2.new(0, 40, 0, 90)
 KeyInput.BackgroundColor3 = Color3.fromRGB(30, 20, 40)
 KeyInput.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", KeyInput)
@@ -76,7 +94,7 @@ Instance.new("UICorner", KeyInput)
 local DiscordBtn = Instance.new("TextButton", KeyFrame)
 DiscordBtn.Text = "Discord Get Key"
 DiscordBtn.Size = UDim2.new(0, 135, 0, 35)
-DiscordBtn.Position = UDim2.new(0, 40, 0, 140)
+DiscordBtn.Position = UDim2.new(0, 40, 0, 145)
 DiscordBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242)
 DiscordBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", DiscordBtn)
@@ -84,7 +102,7 @@ Instance.new("UICorner", DiscordBtn)
 local CheckBtn = Instance.new("TextButton", KeyFrame)
 CheckBtn.Text = "Doğrula"
 CheckBtn.Size = UDim2.new(0, 135, 0, 35)
-CheckBtn.Position = UDim2.new(0, 185, 0, 140)
+CheckBtn.Position = UDim2.new(0, 185, 0, 145)
 CheckBtn.BackgroundColor3 = Color3.fromRGB(140, 20, 255)
 CheckBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
 Instance.new("UICorner", CheckBtn)
@@ -110,11 +128,10 @@ CheckBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- MAIN HUB YÜKLEME FONKSİYONU
+-- ANA KONTROL PANELİ (MAIN HUB)
 function LoadMainHub()
     local MainGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
     
-    -- Küresel Döngü Değişkenleri
     _G.FastFarm = false
     _G.FastPushup = false
     _G.FastRebirth = false
@@ -124,7 +141,6 @@ function LoadMainHub()
     _G.AutoEvolve = false
     local SavedPos = nil
 
-    -- Ana Menü Gövdesi
     local MainFrame = Instance.new("Frame", MainGui)
     MainFrame.Size = UDim2.new(0, 560, 0, 400)
     MainFrame.Position = UDim2.new(0.3, 0, 0.25, 0)
@@ -135,7 +151,6 @@ function LoadMainHub()
     Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
     Instance.new("UIStroke", MainFrame).Color = Color3.fromRGB(140, 20, 255)
 
-    -- Üst Bar (Top Bar)
     local TopBar = Instance.new("Frame", MainFrame)
     TopBar.Size = UDim2.new(1, 0, 0, 45)
     TopBar.BackgroundColor3 = Color3.fromRGB(20, 12, 28)
@@ -148,7 +163,7 @@ function LoadMainHub()
     HeaderLogo.Image = LogoAssetId
 
     local LogoText = Instance.new("TextLabel", TopBar)
-    LogoText.Text = "WasTaken Hub v3.0"
+    LogoText.Text = "WasTaken Hub v3.5"
     LogoText.Size = UDim2.new(0, 200, 1, 0)
     LogoText.Position = UDim2.new(0, 52, 0, 0)
     LogoText.BackgroundTransparency = 1
@@ -165,7 +180,6 @@ function LoadMainHub()
     MinimizeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
     Instance.new("UICorner", MinimizeBtn)
 
-    -- Küçük Logo Modu (Aşağı Alınca Çıkacak Yuvarlak Ejderha Butonu)
     local MiniLogo = Instance.new("ImageButton", MainGui)
     MiniLogo.Size = UDim2.new(0, 65, 0, 65)
     MiniLogo.Position = UDim2.new(0.02, 0, 0.8, 0)
@@ -194,14 +208,12 @@ function LoadMainHub()
         end)
     end)
 
-    -- Sol Menü (Sidebar / Tabs Navigation)
     local Sidebar = Instance.new("Frame", MainFrame)
     Sidebar.Size = UDim2.new(0, 140, 1, -45)
     Sidebar.Position = UDim2.new(0, 0, 0, 45)
     Sidebar.BackgroundColor3 = Color3.fromRGB(18, 12, 24)
     Sidebar.BorderSizePixel = 0
 
-    -- Sağ İçerik Alanı (Container)
     local ContentContainer = Instance.new("Frame", MainFrame)
     ContentContainer.Size = UDim2.new(1, -140, 1, -45)
     ContentContainer.Position = UDim2.new(0, 140, 0, 45)
@@ -243,16 +255,15 @@ function LoadMainHub()
                 t.Btn.TextColor3 = Color3.fromRGB(180, 160, 200)
             end
             tabFrame.Visible = true
-            tabButton.BackgroundColor3 = Color3.fromRGB(110, 30, 200)
-            tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-        end)
-
-        tabs[name] = {Frame = tabFrame, Btn = tabButton}
-        if currentTab == nil then
-            tabFrame.Visible = true
-            tabButton.BackgroundColor3 = Color3.fromRGB(110, 30, 200)
-            tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-            currentTab = name
+         tabButton.BackgroundColor3 = Color3.fromRGB(110, 30, 200)
+tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+end)
+tabs[name] = {Frame = tabFrame, Btn = tabButton}
+if currentTab == nil then
+tabFrame.Visible = true
+tabButton.BackgroundColor3 = Color3.fromRGB(110, 30, 200)
+tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+currentTab = name
 end
 return tabFrame
 end
@@ -283,15 +294,13 @@ callback(state)
 end)
 return btn
 end
--- SEKMELERİN OLUŞTURULMASI
+-- KATEGORİ AYRIMLARI
 local HomeTab = createTab("Ana Sayfa")
 local FarmTab = createTab("Fast Farm")
--- İstediğin gibi Rebirth ve Boss kısımlarını tamamen ayırıp bağımsız sekmeler yaptık:
 local RebirthTab = createTab("Rebirth Sistemi")
 local BossTab = createTab("Boss & Savaş")
 local CrystalTab = createTab("Kristal & Pet")
 local TeleportTab = createTab("Işınlanma")
--- 1. ANA SAYFA SEKLESİ
 local WelcomeYazi = Instance.new("TextLabel", HomeTab)
 WelcomeYazi.Text = "WasTaken Premium Hub'a Hoş Geldiniz, " .. LocalPlayer.Name .. "!"
 WelcomeYazi.Size = UDim2.new(0, 380, 0, 30)
@@ -299,7 +308,7 @@ WelcomeYazi.TextColor3 = Color3.fromRGB(255, 255, 255)
 WelcomeYazi.Font = Enum.Font.SourceSansBold
 WelcomeYazi.TextSize = 16
 WelcomeYazi.BackgroundTransparency = 1
--- 2. FAST FARM SEKLESİ
+-- FAST FARM FONKSİYONLARI (Evrensel Kaldırma Aktif)
 makeToggle(FarmTab, "Evrensel Fast Kaldırma", function(val) _G.FastFarm = val end)
 task.spawn(function()
 while true do
@@ -333,7 +342,7 @@ end
 task.wait(0.01)
 end
 end)
--- 3. REBIRTH SEKLESİ (Tamamen Bağımsız Alan)
+-- REBIRTH DÖNGÜSÜ
 makeToggle(RebirthTab, "Oto Hızlı Rebirth (Fast Rebirth)", function(val) _G.FastRebirth = val end)
 task.spawn(function()
 while true do
@@ -341,7 +350,7 @@ if _G.FastRebirth then LocalPlayer.muscleEvent:FireServer("rebirthRequest") end
 task.wait(0.1)
 end
 end)
--- 4. BOSS & SAVAŞ SEKLESİ (Tamamen Bağımsız Alan)
+-- BOSS KILLER
 makeToggle(BossTab, "Otomatik Tüm Bossları Kes", function(val) _G.AutoBoss = val end)
 task.spawn(function()
 while true do
@@ -355,7 +364,7 @@ end
 task.wait(0.05)
 end
 end)
--- 5. KRİSTAL & PET SEKLESİ
+-- KRİSTAL & PET DÖNGÜLERİ
 makeToggle(CrystalTab, "Oto Mavi Kristal Aç", function(val) _G.AutoCrystal = val end)
 task.spawn(function()
 while true do
@@ -370,7 +379,7 @@ if _G.AutoEvolve then LocalPlayer.muscleEvent:FireServer("autoEvolvePet") end
 task.wait(1)
 end
 end)
--- 6. IŞINLANMA VE STAT AYARLARI SEKLESİ
+-- TELEPORT VE SÜRÜCÜ AYARLARI
 local TeleportBtn = Instance.new("TextButton", TeleportTab)
 TeleportBtn.Size = UDim2.new(0, 380, 0, 40)
 TeleportBtn.BackgroundColor3 = Color3.fromRGB(45, 20, 70)
