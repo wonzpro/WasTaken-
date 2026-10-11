@@ -17,9 +17,9 @@ local VirtualUser = game:Service("VirtualUser")
 -- =======================================================
 -- CONFIG / AYARLAR (WasTaken Manuel Kontrol Paneli)
 -- =======================================================
-local KeyRawUrl = "https://githubusercontent.com"
+local KeyRawUrl = "https://raw.githubusercontent.com/wonzpro/WasTaken-/refs/heads/main/key.txt"
 local DiscordLink = "https://discord.gg/WasTaken" 
-local LogoAssetId = "rbxassetid://134267439126293" -- WasTaken Ejderha Logosu (Roblox Asset ID)
+local LogoAssetId = "rbxassetid://86521067133648" -- WasTaken Ejderha Logosu (Roblox Asset ID)
 -- =======================================================
 
 -- GitHub'dan şifreyi canlı çekme mekanizması
