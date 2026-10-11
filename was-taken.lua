@@ -19,7 +19,7 @@ local VirtualUser = game:Service("VirtualUser")
 -- =======================================================
 -- UYARI: Aşağıdaki tırnak içine, kendi oluşturduğunuz key.txt dosyasının GitHub RAW linkini yapıştırın!
 local KeyRawUrl = "BURAYA_KEY_TXT_DOSYASININ_RAW_LINKINI_YAPISTIRIN"
-local DiscordLink = "https://discord.gg" 
+local DiscordLink = "https://discord.gg/WasTaken" 
 -- =======================================================
 
 -- GitHub'dan şifreyi canlı çekme mekanizması
