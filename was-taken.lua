@@ -18,7 +18,7 @@ local VirtualUser = game:Service("VirtualUser")
 -- CONFIG / AYARLAR (WasTaken Manuel Kontrol Paneli)
 -- =======================================================
 -- UYARI: Aşağıdaki tırnak içine, kendi oluşturduğunuz key.txt dosyasının GitHub RAW linkini yapıştırın!
-local KeyRawUrl = "BURAYA_KEY_TXT_DOSYASININ_RAW_LINKINI_YAPISTIRIN"
+local KeyRawUrl = "https://raw.githubusercontent.com/wonzpro/WasTaken-/refs/heads/main/key.txt"
 local DiscordLink = "https://discord.gg/WasTaken" 
 -- =======================================================
 
