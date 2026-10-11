@@ -17,7 +17,7 @@ local VirtualUser = game:Service("VirtualUser")
 -- =======================================================
 -- CONFIG / AYARLAR (WasTaken Manuel Kontrol Paneli)
 -- =======================================================
-local KeyRawUrl = "https://githubusercontent.com"
+local KeyRawUrl = "https://raw.githubusercontent.com/wonzpro/WasTaken-/refs/heads/main/key.txt"
 local DiscordLink = "https://discord.gg/WasTaken" 
 local LogoAssetId = "rbxassetid://86521067133648"
 -- =======================================================
