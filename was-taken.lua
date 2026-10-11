@@ -5,7 +5,7 @@
       \ V  V / (_| \__ \  | || |_| | . \| |___| |\  |
        \_/\_/ \__,_|___/  |_| \___/|_|\_\_____|_| \_|
                                                      
-    WasTaken Premium Muscle Legends Hub (v3.5 Ultimate Universal Edition)
+    WasTaken Premium Muscle Legends Hub (v3.6 Final Build)
     Theme: Cyber-Dark Purple & Metallic Dragon
 --]]
 
@@ -17,36 +17,30 @@ local VirtualUser = game:Service("VirtualUser")
 -- =======================================================
 -- CONFIG / AYARLAR (WasTaken Manuel Kontrol Paneli)
 -- =======================================================
-local KeyRawUrl = "https://raw.githubusercontent.com/wonzpro/WasTaken-/refs/heads/main/key.txt"
+local KeyRawUrl = "https://githubusercontent.com"
 local DiscordLink = "https://discord.gg/WasTaken" 
-local LogoAssetId = "rbxassetid://86521067133648" -- Değerli WasTaken Ejderha Logosu
+local LogoAssetId = "rbxassetid://86521067133648"
 -- =======================================================
 
--- Delta ve Diğer Tüm Katı Korumalı Executorların İnternet Engelini Aşan Özel Yapı
+-- Evrensel Veri Çekici (Tüm Engelleri Aşar)
 local function UniversalFetch(url)
     local success, content = pcall(function()
-        return game:HttpGetAsync(url)
+        return game:HttpGet(url, true)
     end)
     if success and content then return content end
     
     local success2, content2 = pcall(function()
-        return game:HttpGet(url, true)
+        return game:HttpGetAsync(url)
     end)
     if success2 and content2 then return content2 end
     
-    local req = request or http_request or (http and http.request)
-    if req then
-        local res = req({Url = url, Method = "GET"})
-        if res and res.Body then return res.Body end
-    end
     return "WasTaken2026"
 end
 
--- Canlı şifreyi çekme işlemi
 local fetchedKey = UniversalFetch(KeyRawUrl)
 local CorrectKey = fetchedKey and string.gsub(fetchedKey, "%s+", "") or "WasTaken2026"
 
--- Anti-AFK (7/24 Kesintisiz Bağlantı)
+-- Anti-AFK
 if getgenv().AntiAFK == nil then
     getgenv().AntiAFK = true
     LocalPlayer.Idled:Connect(function()
@@ -75,7 +69,8 @@ KeyFrame.BorderSizePixel = 0
 KeyFrame.Active = true
 KeyFrame.Draggable = true
 Instance.new("UICorner", KeyFrame).CornerRadius = UDim.new(0, 10)
-Instance.new("UIStroke", KeyFrame).Color = Color3.fromRGB(140, 20, 255)
+local kStroke = Instance.new("UIStroke", KeyFrame)
+kStroke.Color = Color3.fromRGB(140, 20, 255)
 
 local KeyLogo = Instance.new("ImageLabel", KeyFrame)
 KeyLogo.Size = UDim2.new(0, 70, 0, 70)
@@ -128,7 +123,7 @@ CheckBtn.MouseButton1Click:Connect(function()
     end
 end)
 
--- ANA KONTROL PANELİ (MAIN HUB)
+-- ANA HUB YÜKLEME FONKSİYONU
 function LoadMainHub()
     local MainGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
     
@@ -149,7 +144,8 @@ function LoadMainHub()
     MainFrame.Active = true
     MainFrame.Draggable = true
     Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
-    Instance.new("UIStroke", MainFrame).Color = Color3.fromRGB(140, 20, 255)
+    local mStroke = Instance.new("UIStroke", MainFrame)
+    mStroke.Color = Color3.fromRGB(140, 20, 255)
 
     local TopBar = Instance.new("Frame", MainFrame)
     TopBar.Size = UDim2.new(1, 0, 0, 45)
@@ -163,7 +159,7 @@ function LoadMainHub()
     HeaderLogo.Image = LogoAssetId
 
     local LogoText = Instance.new("TextLabel", TopBar)
-    LogoText.Text = "WasTaken Hub v3.5"
+    LogoText.Text = "WasTaken Hub v3.6"
     LogoText.Size = UDim2.new(0, 200, 1, 0)
     LogoText.Position = UDim2.new(0, 52, 0, 0)
     LogoText.BackgroundTransparency = 1
@@ -189,7 +185,10 @@ function LoadMainHub()
     MiniLogo.Active = true
     MiniLogo.Draggable = true
     Instance.new("UICorner", MiniLogo).CornerRadius = UDim.new(0, 50)
-    Instance.new("UIStroke", MiniLogo).Color = Color3.fromRGB(140, 20, 255)
+    
+    -- Çökmeye sebep olan hatalı UIStroke bağlantısı düzeltildi:
+    local miniStroke = Instance.new("UIStroke", MiniLogo)
+    miniStroke.Color = Color3.fromRGB(140, 20, 255)
 
     MinimizeBtn.MouseButton1Click:Connect(function()
         MainFrame:TweenSize(UDim2.new(0, 0, 0, 0), "Out", "Quad", 0.25, true, function()
@@ -255,10 +254,11 @@ function LoadMainHub()
                 t.Btn.TextColor3 = Color3.fromRGB(180, 160, 200)
             end
             tabFrame.Visible = true
-         tabButton.BackgroundColor3 = Color3.fromRGB(110, 30, 200)
-tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-end)
-tabs[name] = {Frame = tabFrame, Btn = tabButton}
+            tabButton.BackgroundColor3 = Color3.fromRGB(110, 30, 200)
+            tabButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+        end)
+
+        tabs[name] = {Frame = tabFrame, Btn = tabButton}
 if currentTab == nil then
 tabFrame.Visible = true
 tabButton.BackgroundColor3 = Color3.fromRGB(110, 30, 200)
@@ -294,7 +294,7 @@ callback(state)
 end)
 return btn
 end
--- KATEGORİ AYRIMLARI
+-- TAB KURULUMLARI
 local HomeTab = createTab("Ana Sayfa")
 local FarmTab = createTab("Fast Farm")
 local RebirthTab = createTab("Rebirth Sistemi")
@@ -308,7 +308,6 @@ WelcomeYazi.TextColor3 = Color3.fromRGB(255, 255, 255)
 WelcomeYazi.Font = Enum.Font.SourceSansBold
 WelcomeYazi.TextSize = 16
 WelcomeYazi.BackgroundTransparency = 1
--- FAST FARM FONKSİYONLARI (Evrensel Kaldırma Aktif)
 makeToggle(FarmTab, "Evrensel Fast Kaldırma", function(val) _G.FastFarm = val end)
 task.spawn(function()
 while true do
@@ -342,7 +341,6 @@ end
 task.wait(0.01)
 end
 end)
--- REBIRTH DÖNGÜSÜ
 makeToggle(RebirthTab, "Oto Hızlı Rebirth (Fast Rebirth)", function(val) _G.FastRebirth = val end)
 task.spawn(function()
 while true do
@@ -350,7 +348,6 @@ if _G.FastRebirth then LocalPlayer.muscleEvent:FireServer("rebirthRequest") end
 task.wait(0.1)
 end
 end)
--- BOSS KILLER
 makeToggle(BossTab, "Otomatik Tüm Bossları Kes", function(val) _G.AutoBoss = val end)
 task.spawn(function()
 while true do
@@ -364,7 +361,6 @@ end
 task.wait(0.05)
 end
 end)
--- KRİSTAL & PET DÖNGÜLERİ
 makeToggle(CrystalTab, "Oto Mavi Kristal Aç", function(val) _G.AutoCrystal = val end)
 task.spawn(function()
 while true do
@@ -379,7 +375,6 @@ if _G.AutoEvolve then LocalPlayer.muscleEvent:FireServer("autoEvolvePet") end
 task.wait(1)
 end
 end)
--- TELEPORT VE SÜRÜCÜ AYARLARI
 local TeleportBtn = Instance.new("TextButton", TeleportTab)
 TeleportBtn.Size = UDim2.new(0, 380, 0, 40)
 TeleportBtn.BackgroundColor3 = Color3.fromRGB(45, 20, 70)
